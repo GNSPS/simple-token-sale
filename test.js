@@ -42,7 +42,7 @@ const mnemonic = secrets.mnemonic;
 const testRPCInput = { accounts: generateAccounts(mnemonic, 0, ACCOUNTS, []) };
 
 TestRPC.server(testRPCInput).listen(8545);
-const truffle = cp.spawn('truffle', ['test']);
+const truffle = cp.spawn('truffle', ['test', 'test/sale.js', '&&', 'truffle', 'test', 'test/saleB.js']);
 
 truffle.stdout.on('data', (data) => {
   process.stdout.write(data.toString());
@@ -55,4 +55,3 @@ truffle.stderr.on('data', (data) => {
 truffle.on('exit', (code) => {
   process.exit(code);
 });
-

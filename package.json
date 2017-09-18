@@ -4,6 +4,8 @@
   "description": "Contracts for fixed-price, finite-supply token sales.",
   "scripts": {
     "test": "node test.js",
+    "testrpc-manual": "testrpc -a 20 -m 'economy chuckle twin square rose provide friend combine fashion wheel purse huge'",
+    "test-manual": "truffle test test/init.js",
     "fix": "eslint --fix",
     "lint": "eslint"
   },
