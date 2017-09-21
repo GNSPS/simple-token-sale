@@ -47,6 +47,11 @@ contract Sale {
         _;
     }
 
+    modifier saleEnded {
+        require(block.number > endBlock);
+        _;
+    }
+
     modifier onlyOwner {
         require(msg.sender == owner);
         _;
@@ -205,6 +210,7 @@ contract Sale {
         PurchasedTokens(msg.sender, tokenPurchase);
     }
 
+
     /*
      * Owner-only functions
      */
@@ -214,6 +220,15 @@ contract Sale {
     {
         require(_newOwner != 0);
         owner = _newOwner;
+    }
+
+    function withdrawRemainder()
+        onlyOwner
+        saleStarted
+        saleEnded
+    {
+        uint remainder = token.balanceOf(this);
+        token.transfer(wallet, remainder);
     }
 
     function changePrice(uint _newPrice)
