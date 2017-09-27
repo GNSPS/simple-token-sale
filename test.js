@@ -39,6 +39,10 @@ if (!fs.existsSync('secrets.json')) {
 const secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
 const mnemonic = secrets.mnemonic;
 
+if (mnemonic === 'economy chuckle twin square rose provide friend combine fashion wheel purse huge') {
+  console.log('\nYou are using the default mnemonic. Please DO NOT use it in production.\n');
+}
+
 const testRPCInput = { accounts: generateAccounts(mnemonic, 0, ACCOUNTS, []) };
 
 TestRPC.server(testRPCInput).listen(8545);
