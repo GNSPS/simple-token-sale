@@ -51,7 +51,7 @@ contract Disbursement {
     function Disbursement(address _receiver, uint _disbursementPeriod, uint _startDate)
         public
     {
-        if (_receiver == 0 || _disbursementPeriod == 0)
+        if (_receiver == 0 || _disbursementPeriod == 0 || _receiver == msg.sender)
             // Arguments are null
             revert();
         owner = msg.sender;
