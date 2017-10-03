@@ -159,6 +159,8 @@ contract Sale {
         assert(!timelockedTokensDisbursed);
 
         for(uint i = 0; i < _beneficiaries.length; i++) {
+          require(owner != beneficiary);
+          
           address beneficiary = _beneficiaries[i];
           uint beneficiaryTokens = _beneficiariesTokens[i];
 
