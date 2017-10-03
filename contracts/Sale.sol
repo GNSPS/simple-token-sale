@@ -253,7 +253,7 @@ contract Sale {
         onlyOwner
         notFrozen
     {
-        require(_newBlock != 0);
+        require(_newBlock != 0 && _newBlock < endBlock);
 
         freezeBlock = _newBlock - (startBlock - freezeBlock);
         startBlock = _newBlock;
