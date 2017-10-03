@@ -125,6 +125,7 @@ contract Sale {
     )
         public
         onlyOwner
+        beforeFreeze
     {
         assert(!preSaleTokensDisbursed);
 
@@ -152,6 +153,7 @@ contract Sale {
     )
         public
         onlyOwner
+        beforeFreeze
     {
         assert(preSaleTokensDisbursed);
         assert(!timelockedTokensDisbursed);
