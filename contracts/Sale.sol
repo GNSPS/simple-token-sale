@@ -57,7 +57,7 @@ contract Sale {
         _;
     }
 
-    modifier notFrozen {
+    modifier beforeFreeze {
         require(block.number < freezeBlock);
         _;
     }
