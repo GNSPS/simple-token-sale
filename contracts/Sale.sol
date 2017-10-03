@@ -99,6 +99,8 @@ contract Sale {
         uint _totalTimelockedBeneficiaries,
         uint _endBlock
     ) {
+        require(block.number <= _freezeBlock && _freezeBlock < _startBlock && _startBlock < _endBlock);
+
         owner = _owner;
         wallet = _wallet;
         token = new HumanStandardToken(_tokenSupply, _tokenName, _tokenDecimals, _tokenSymbol);
