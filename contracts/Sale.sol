@@ -42,13 +42,13 @@ contract Sale {
         _;
     }
 
-    modifier saleEnded {
+    modifier afterEndBlock {
          require(block.number > endBlock);
          _;
     }
 
     modifier saleNotEnded {
-        require(block.number <= endBlock);
+        require(block.number <= endBlock && token.balanceOf(this) > 0);
         _;
     }
 
@@ -221,7 +221,7 @@ contract Sale {
     
     function withdrawRemainder()
          onlyOwner
-         saleEnded
+         afterEndBlock
      {
          uint remainder = token.balanceOf(this);
          token.transfer(wallet, remainder);
