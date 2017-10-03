@@ -189,6 +189,8 @@ contract Sale {
         setupComplete
         notInEmergency
     {
+        require(msg.value > 0);
+
         /* Calculate whether any of the msg.value needs to be returned to
            the sender. The purchaseAmount is the actual number of tokens which
            will be purchased. */
