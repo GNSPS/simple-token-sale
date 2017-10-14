@@ -237,7 +237,7 @@ contract Sale {
 
     function changePrice(uint _newPrice)
         onlyOwner
-        notFrozen
+        beforeFreeze
     {
         require(_newPrice != 0);
         price = _newPrice;
@@ -245,7 +245,7 @@ contract Sale {
 
     function changeWallet(address _wallet)
         onlyOwner
-        notFrozen
+        beforeFreeze
     {
         require(_wallet != 0);
         wallet = _wallet;
@@ -253,7 +253,7 @@ contract Sale {
 
     function changeStartBlock(uint _newBlock)
         onlyOwner
-        notFrozen
+        beforeFreeze
     {
         require(_newBlock != 0 && _newBlock < endBlock);
 
@@ -263,7 +263,7 @@ contract Sale {
 
     function changeEndBlock(uint _newBlock)
         onlyOwner
-        notFrozen
+        beforeFreeze
     {
         require(_newBlock > startBlock);
         endBlock = _newBlock;
