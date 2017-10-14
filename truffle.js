@@ -8,7 +8,7 @@ if (fs.existsSync('secrets.json')) {
   secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
   mnemonic = secrets.mnemonic;
   if (mnemonic === 'economy chuckle twin square rose provide friend combine fashion wheel purse huge') {
-    throw new Error('please DO NOT use the default mnemonic.');
+    console.log('please DO NOT use the default mnemonic.');
   }
 } else {
   console.log('no secrets.json found. You can only deploy to the testrpc.');
