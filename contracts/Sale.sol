@@ -42,13 +42,13 @@ contract Sale {
         _;
     }
 
-    modifier saleEnded {
+    modifier afterEndBlock {
          require(block.number > endBlock);
          _;
     }
 
     modifier saleNotEnded {
-        require(block.number <= endBlock);
+        require(block.number <= endBlock && token.balanceOf(this) > 0);
         _;
     }
 
@@ -57,7 +57,7 @@ contract Sale {
         _;
     }
 
-    modifier notFrozen {
+    modifier beforeFreeze {
         require(block.number < freezeBlock);
         _;
     }
@@ -99,6 +99,8 @@ contract Sale {
         uint _totalTimelockedBeneficiaries,
         uint _endBlock
     ) {
+        require(block.number <= _freezeBlock && _freezeBlock < _startBlock && _startBlock < _endBlock);
+
         owner = _owner;
         wallet = _wallet;
         token = new HumanStandardToken(_tokenSupply, _tokenName, _tokenDecimals, _tokenSymbol);
@@ -123,6 +125,7 @@ contract Sale {
     )
         public
         onlyOwner
+        beforeFreeze
     {
         assert(!preSaleTokensDisbursed);
 
@@ -150,11 +153,14 @@ contract Sale {
     )
         public
         onlyOwner
+        beforeFreeze
     {
         assert(preSaleTokensDisbursed);
         assert(!timelockedTokensDisbursed);
 
         for(uint i = 0; i < _beneficiaries.length; i++) {
+          require(owner != beneficiary);
+          
           address beneficiary = _beneficiaries[i];
           uint beneficiaryTokens = _beneficiariesTokens[i];
 
@@ -185,6 +191,8 @@ contract Sale {
         setupComplete
         notInEmergency
     {
+        require(msg.value > 0);
+
         /* Calculate whether any of the msg.value needs to be returned to
            the sender. The purchaseAmount is the actual number of tokens which
            will be purchased. */
@@ -221,7 +229,7 @@ contract Sale {
     
     function withdrawRemainder()
          onlyOwner
-         saleEnded
+         afterEndBlock
      {
          uint remainder = token.balanceOf(this);
          token.transfer(wallet, remainder);
@@ -229,7 +237,7 @@ contract Sale {
 
     function changePrice(uint _newPrice)
         onlyOwner
-        notFrozen
+        beforeFreeze
     {
         require(_newPrice != 0);
         price = _newPrice;
@@ -237,7 +245,7 @@ contract Sale {
 
     function changeWallet(address _wallet)
         onlyOwner
-        notFrozen
+        beforeFreeze
     {
         require(_wallet != 0);
         wallet = _wallet;
@@ -245,9 +253,9 @@ contract Sale {
 
     function changeStartBlock(uint _newBlock)
         onlyOwner
-        notFrozen
+        beforeFreeze
     {
-        require(_newBlock != 0);
+        require(_newBlock != 0 && _newBlock < endBlock);
 
         freezeBlock = _newBlock - (startBlock - freezeBlock);
         startBlock = _newBlock;
@@ -255,7 +263,7 @@ contract Sale {
 
     function changeEndBlock(uint _newBlock)
         onlyOwner
-        notFrozen
+        beforeFreeze
     {
         require(_newBlock > startBlock);
         endBlock = _newBlock;
