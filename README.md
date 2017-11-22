@@ -32,5 +32,13 @@ DO NOT SHARE OR COMMIT THE MNEMONIC YOU CHANGE IT TO.
 
 Make sure all the tests pass before deploying. You probably won't have all of your founders' private keys and so expect to see warnings on those tests. It will take a long time for the tests in the "Sale period 0" block to begin since the testRPC has to be force-mined for millions of blocks.
 
+You can also use the command:
+
+```
+npm run setup
+```
+
+For a more user friendly version of setting up the whole sale parameters.
+
 Having done all that you can `truffle migrate --network mainnet`. Save the contents of your build directory, you'll want to have all that data.
 
